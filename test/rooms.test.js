@@ -1,6 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const fs = require('node:fs');
+const os = require('node:os');
 const { createRoomDirectory, loadRoomDirectory, RoomsConfigError } = require('../src/rooms');
 
 const config = { rooms: { a: 'client-a', b: 'client-b', d1: 'design', d2: 'dev' }, linked: { internal: ['d1', 'd2'] } };
@@ -37,4 +39,10 @@ test('the shipped rooms.json and lab/rooms.json load', () => {
   const root = path.join(__dirname, '..');
   assert.equal(loadRoomDirectory(path.join(root, 'rooms.json')).nameOf('2a879062-5736-4085-a6f1-ee7659e3da8e'), 'town-square');
   assert.equal(loadRoomDirectory(path.join(root, 'lab', 'rooms.json')).areLinked('room-acme-design', 'room-acme-dev'), true);
+});
+
+test('a rooms.json saved with a UTF-8 byte order mark (Windows PowerShell 5) still loads', () => {
+  const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'roomwall-')), 'rooms.json');
+  fs.writeFileSync(file, `\uFEFF${JSON.stringify({ rooms: { abc: 'client-acme' } })}`);
+  assert.equal(loadRoomDirectory(file).nameOf('abc'), 'client-acme');
 });

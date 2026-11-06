@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const { SHORT_ID_LENGTH } = require('./config');
 
+const BYTE_ORDER_MARK = /^\uFEFF/;
+
 class RoomsConfigError extends Error {}
 
 function assertObject(value, label) {
@@ -37,7 +39,7 @@ function createRoomDirectory(config = {}) {
 }
 
 function loadRoomDirectory(file) {
-  const raw = fs.readFileSync(file, 'utf8');
+  const raw = fs.readFileSync(file, 'utf8').replace(BYTE_ORDER_MARK, '');
   return createRoomDirectory(JSON.parse(raw));
 }
 

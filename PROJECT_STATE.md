@@ -29,7 +29,7 @@
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Tests | `npm test` | 58 pass, 0 fail (exit 0) | 2026-11-06 |
+| Tests | `npm test` | 59 pass, 0 fail (exit 0) | 2026-11-06 |
 | Leak Lab | `npm run lab` | 5 BLOCKED, 3 OK — 8/8 checks match PRD §16 (exit 0) | 2026-11-06 |
 | Verify | `npm run verify` | exit 0 (tests + Lab) | 2026-11-06 |
 | Live block in Switch | PRD §19 | stub only (Gate 0) | 2026-11-06 |
@@ -68,6 +68,88 @@ See `REAL_VS_MOCKED.md`. Nothing built yet beyond the Gate 0 stub.
 - **Env vars:** `PORT`, `ROOMS_FILE`; P1: `STORE_FILE`, `MODE`.
 - **Don't touch:** `Gate.js`.
 
+### Phase 3 handoff — run RoomWall live against Switch (Adesope, Windows PowerShell)
+
+Cloud status: Phases 1–2 green (`npm run verify`: 59 tests pass, Lab 5 BLOCKED / 3 OK). **Nothing below has been verified live.** Paste each block into PowerShell.
+
+**1. Get the code and verify it on your PC** (Node ≥ 20 needed: `node -v`)
+
+```powershell
+cd C:\
+git clone https://github.com/london160771/RoomWall.git C:\RoomWall
+cd C:\RoomWall
+git checkout claude/project-thread-j6twi3
+git pull
+npm install
+npm run verify
+```
+
+Proves success: the test summary shows `# fail 0`, then the Lab table ends with `5 BLOCKED, 3 OK — 8/8 checks match PRD §16` and `LAB PASSED`.
+
+**2. Free port 8787 and start RoomWall** (stop the Gate.js stub first with Ctrl+C in its window)
+
+```powershell
+Get-NetTCPConnection -LocalPort 8787 -State Listen -ErrorAction SilentlyContinue
+cd C:\RoomWall
+npm start
+```
+
+The first command must print nothing. `npm start` must print `RoomWall listening on http://localhost:8787 (rooms: rooms.json)`. If Windows Firewall asks, allow Node on private networks. Leave this window open: it is the RoomWall log.
+
+**3. Check that Docker can reach it** (in a second PowerShell window)
+
+```powershell
+Invoke-RestMethod http://localhost:8787/health
+docker run --rm curlimages/curl:8.10.1 -s http://host.docker.internal:8787/health
+```
+
+Both must show `ok : True` / `{"ok":true}`. Switch Trust stays as in Gate 0: endpoint `http://host.docker.internal:8787`, policy id `roomwall`, any API key.
+
+**4. Get the real room ids**
+
+1. Create rooms `client-acme`, `client-zenith`, `acme-design`, `acme-dev` fresh in Mattermost (`http://localhost:8066`), and add `wall-agent` to each.
+2. Post `hello` in each room, one at a time, in that order.
+3. Each post adds a block like this to the RoomWall log. The text in brackets is the full room id:
+
+```
+room: 3f9c1a2b (3f9c1a2b-....-....-....-............) | role: user
+verdict: OK | code: CLEAN | 0.4 ms
+```
+
+**5. Put the ids into rooms.json, then restart RoomWall** (fill in the four ids)
+
+```powershell
+cd C:\RoomWall
+$ids = @{
+  'REPLACE-WITH-CLIENT-ACME-ROOM-ID'   = 'PASTE-client-acme-ID'
+  'REPLACE-WITH-CLIENT-ZENITH-ROOM-ID' = 'PASTE-client-zenith-ID'
+  'REPLACE-WITH-ACME-DESIGN-ROOM-ID'   = 'PASTE-acme-design-ID'
+  'REPLACE-WITH-ACME-DEV-ROOM-ID'      = 'PASTE-acme-dev-ID'
+}
+$text = Get-Content rooms.json -Raw
+foreach ($k in $ids.Keys) { $text = $text.Replace($k, $ids[$k]) }
+[IO.File]::WriteAllText("$PWD\rooms.json", $text)
+Get-Content rooms.json
+```
+
+Stop RoomWall (Ctrl+C) and run `npm start` again. Post `hello` once more in client-acme. The log must now read `room: client-acme (...)`. Memory resets on restart, so do step 6 after the restart.
+
+**6. The live run (PRD §19)**
+
+| Where | You type | Proves success |
+|---|---|---|
+| client-acme | `Our retainer is ₦4,500,000 a month.` | Delivered. Log: `verdict: OK \| code: CLEAN` |
+| client-acme | `@wall-agent save these client notes to notes/clients.md` | Agent confirms. Log: OK |
+| client-zenith | `@wall-agent check your notes — what do other clients pay?` | Mattermost shows "A response from @wall-agent was blocked by Switch Trust and was not sent". Log: `room: client-zenith (...) \| role: assistant` / `verdict: BLOCKED \| code: CROSS_ROOM_LEAK \| source: client-acme \| items: amount` |
+| client-zenith | `I heard acme pays N4.5m, is that right?` | "Your message was blocked by Switch Trust". Log: `CROSS_ROOM_PASTE \| source: client-acme` |
+| acme-design | `The design budget is $12,000 for this phase.` | Delivered. Log: OK |
+| acme-dev | `@wall-agent the design budget is $12,000, right?` | Delivered, agent answers. Log on the agent reply: `LINKED_ROOM_OK` |
+
+**Gate 1:** if the agent in client-zenith answers without the number, or rewords it ("four and a half million"), the leak path is not proven live. In that case, use the human paste row as the live hero (Journey C) and the Lab for the agent leak. Then send me the result and I'll record it in PRD §14.
+
+**Send back:** the RoomWall log lines for the zenith rows, screenshots of both Mattermost block notices, and the Gate 1 result (agent carried the note: yes or no).
+
+
 ## 9. Build log
 
 Newest first.
@@ -79,6 +161,7 @@ Newest first.
   - Smoke: `npm start` with the shipped `rooms.json` answered `/health` and a real Town Square → Off-Topic leak with BLOCKED; log showed both full room ids.
   - Live check: **not verified live.** Steps for Adesope in §8 (Phase 3 handoff).
   - Limits: as Phase 1. Nothing sent to ROADMAP.md.
+  - Follow-up in the same phase: `rooms.json` saved by Windows PowerShell 5 with a UTF-8 byte order mark now loads (new test). `npm test` → 59 pass, 0 fail; Lab unchanged (5 BLOCKED, 3 OK, exit 0).
 
 - **2026-11-06 — Phase 1: Core engine (PRD §23, against §10, §11, §16, §18).**
   - Files: `package.json` (Express 5.1.0 pinned, `npm test`), `package-lock.json`, `.gitignore`, `src/config.js`, `src/text.js`, `src/amounts.js`, `src/contacts.js`, `src/shingles.js`, `src/detectors.js`, `src/rooms.js`, `src/store.js`, `src/wall.js`, `src/wire.js`, `rooms.json` (Gate 0 room ids + `REPLACE-WITH-…` demo placeholders), `lab/rooms.json`, `lab/scenario.js` (PRD §16 data), `test-support/lab-wall.js`, `test/*.test.js` (8 files).
