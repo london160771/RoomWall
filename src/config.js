@@ -1,0 +1,66 @@
+const DEFAULT_PORT = 8787;
+const DEFAULT_ROOMS_FILE = 'rooms.json';
+const BODY_LIMIT = '256kb';
+
+const SHINGLE_SIZE = 8;
+const PRIVATE_TAG = '#private';
+const MIN_GROUPED_AMOUNT = 1000n;
+const PHONE_MIN_DIGITS = 10;
+const PHONE_MAX_DIGITS = 15;
+const LOCAL_TRUNK_PREFIX = '0';
+const COUNTRY_CODE = '234';
+const SHORT_ID_LENGTH = 8;
+const COMMON_ITEM_WALLS = 2;
+
+const SUFFIX_EXPONENTS = { k: 3, m: 6, b: 9 };
+
+const POLICY = { id: 'roomwall', name: 'RoomWall', detector: 'roomwall', severity: 'high' };
+
+const OUTCOMES = {
+  OK: 'GUARDRAIL_RESULT_OUTCOME_OK',
+  BLOCKED: 'GUARDRAIL_RESULT_OUTCOME_BLOCKED',
+};
+
+const VERDICTS = { OK: 'OK', BLOCKED: 'BLOCKED' };
+
+const CODES = {
+  CROSS_ROOM_LEAK: 'CROSS_ROOM_LEAK',
+  CROSS_ROOM_PASTE: 'CROSS_ROOM_PASTE',
+  SAME_ROOM_OK: 'SAME_ROOM_OK',
+  LINKED_ROOM_OK: 'LINKED_ROOM_OK',
+  CLEAN: 'CLEAN',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  BAD_REQUEST: 'BAD_REQUEST',
+};
+
+const CATEGORIES = {
+  CROSS_ROOM_LEAK: 'cross-room-leak',
+  CROSS_ROOM_PASTE: 'cross-room-paste',
+};
+
+const ROLES = { USER: 'user', ASSISTANT: 'assistant' };
+
+const ITEM_KINDS = { AMOUNT: 'amount', EMAIL: 'email', PHONE: 'phone', SHINGLE: 'shingle' };
+
+module.exports = {
+  DEFAULT_PORT,
+  DEFAULT_ROOMS_FILE,
+  BODY_LIMIT,
+  SHINGLE_SIZE,
+  PRIVATE_TAG,
+  MIN_GROUPED_AMOUNT,
+  PHONE_MIN_DIGITS,
+  PHONE_MAX_DIGITS,
+  LOCAL_TRUNK_PREFIX,
+  COUNTRY_CODE,
+  SHORT_ID_LENGTH,
+  COMMON_ITEM_WALLS,
+  SUFFIX_EXPONENTS,
+  POLICY,
+  OUTCOMES,
+  VERDICTS,
+  CODES,
+  CATEGORIES,
+  ROLES,
+  ITEM_KINDS,
+};

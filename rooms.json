@@ -1,0 +1,13 @@
+{
+  "rooms": {
+    "2a879062-5736-4085-a6f1-ee7659e3da8e": "town-square",
+    "29235b9a-6306-45d4-a544-64a2dd6a157a": "off-topic",
+    "REPLACE-WITH-CLIENT-ACME-ROOM-ID": "client-acme",
+    "REPLACE-WITH-CLIENT-ZENITH-ROOM-ID": "client-zenith",
+    "REPLACE-WITH-ACME-DESIGN-ROOM-ID": "acme-design",
+    "REPLACE-WITH-ACME-DEV-ROOM-ID": "acme-dev"
+  },
+  "linked": {
+    "acme-internal": ["REPLACE-WITH-ACME-DESIGN-ROOM-ID", "REPLACE-WITH-ACME-DEV-ROOM-ID"]
+  }
+}

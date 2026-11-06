@@ -1,0 +1,18 @@
+{
+  "name": "roomwall",
+  "version": "1.0.0",
+  "description": "A guardrails server for Switch that stops an agent from repeating one client room's private details in another room.",
+  "main": "src/server.js",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "5.1.0"
+  }
+}

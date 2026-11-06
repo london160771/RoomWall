@@ -1,0 +1,11 @@
+{
+  "rooms": {
+    "room-acme": "client-acme",
+    "room-zenith": "client-zenith",
+    "room-acme-design": "acme-design",
+    "room-acme-dev": "acme-dev"
+  },
+  "linked": {
+    "acme-internal": ["room-acme-design", "room-acme-dev"]
+  }
+}
