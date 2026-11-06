@@ -4,7 +4,7 @@
 
 RoomWall is a guardrails server for [Switch](https://github.com/sandbox-quantum/switch) that stops an agent working across several client rooms from repeating one client's private details in another client's room.
 
-**Demo video:** `[PLACEHOLDER: video link — added after recording]` · Built for Flip the Switch (Track 1: Business Workflow)
+**Demo video:** [https://youtu.be/CQaR75Unaxs](https://youtu.be/CQaR75Unaxs) (2:18) · Built for Flip the Switch (Track 1: Business Workflow)
 
 ```
 SAID IN ACME → ASKED IN ZENITH → AGENT TRIES TO LEAK → BLOCKED → LINKED ROOMS STILL SHARE

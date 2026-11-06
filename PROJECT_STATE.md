@@ -3,15 +3,15 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-11-06 07:40 WAT · **By:** Claude Code (cloud) · **Commit:** see Phase 2 entry in the build log
+**Last updated:** 2026-11-06 16:55 WAT · **By:** Claude Code (cloud) · **Commit:** see Phase 2 entry in the build log
 
 ---
 
 ## 1. Right now
 
 - **Active phase:** Phase 4 — Docs and submission (PRD §23)
-- **Status:** Phases 1–3 done. Live agent leak blocked in Switch (PRD §14 Gate 1). Video and submission text still open.
-- **Next step:** record demo Acts 2, 3 and 5 (PRD §20) on the live setup that now works, then fill the video placeholders.
+- **Status:** Phases 1–4 done. Demo video: https://youtu.be/CQaR75Unaxs. Submission text drafted (project file SUBMISSION.md).
+- **Next step:** Adesope submits the form before the internal cutoff (Sat 7 Nov, 2:00 PM WAT). After that, fixes only.
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -22,7 +22,7 @@
 | 1 — Core engine | Cloud | **Done** | 2026-11-06 | Phase 1 commit | A |
 | 2 — Server + Leak Lab | Cloud | **Done** | 2026-11-06 | Phase 2 commit | — |
 | 3 — Live in Switch | Local | **Done** (agent leak blocked live) | 2026-11-06 | Phase 3 commit | B |
-| 4 — Docs + submission | Both | README + REAL_VS_MOCKED drafted (cloud); video, live lines, submission open | | | C |
+| 4 — Docs + submission | Both | **Done** (video, README, REAL_VS_MOCKED, submission text) | 2026-11-06 | Phase 4 commit | C |
 | 5 — P1 extras | Cloud | Not started | | | — |
 
 ## 3. Last verification
@@ -42,17 +42,17 @@
 
 ## 5. Real vs mocked right now
 
-See `REAL_VS_MOCKED.md`. Engine, server and Lab are real code; seeded data is made up. RoomWall itself is not verified live in Switch yet.
+See `REAL_VS_MOCKED.md`. Engine, server and Lab are real code; seeded data is made up. RoomWall is verified live in Switch: agent leak blocked (`CROSS_ROOM_LEAK`) and human paste blocked (`CROSS_ROOM_PASTE`). Linked rooms are shown with Lab row C6 only.
 
 ## 6. Demo recordings (PRD §20)
 
 | Act | Recorded? | File | Date |
 |---|---|---|---|
-| Dangerous default | no | | |
-| Without RoomWall | no | | |
-| With RoomWall | screenshot only (not video) | `docs/evidence/live-block-town-square.png` | 2026-11-06 |
-| Break it (Lab) | no | | |
-| Control returns | no | | |
+| Dangerous default | yes (diagram) | [demo video](https://youtu.be/CQaR75Unaxs) 0:06 | 2026-11-06 |
+| Without RoomWall | yes (clip 1) | demo video 0:22 | 2026-11-06 |
+| With RoomWall | yes (clip 2) + screenshot | demo video 0:38 and 1:01; `docs/evidence/live-block-town-square.png` | 2026-11-06 |
+| Break it (Lab) | yes (clip 3) | demo video 1:27 | 2026-11-06 |
+| Control returns | yes (clip 4 human paste live; linked rooms via Lab C6) | demo video 1:51 | 2026-11-06 |
 
 ## 7. Known issues and limitations
 
@@ -161,6 +161,13 @@ Newest first.
   - Not yet run live: human paste (Journey C) and the linked-room share (Act 5).
   - Code changes: none. `npm run verify` re-run in cloud before commit.
   - Local only: `rooms.json` with real ids lives on Adesope's PC. The repo keeps the placeholders.
+
+- **2026-11-06 — Phase 4 done: demo video and submission.**
+  - Files: `README.md` (video link), `REAL_VS_MOCKED.md` (video link, timestamps, live human-paste block), `PRD.md` (video link, §26 ticked), `PROJECT_STATE.md`.
+  - Video: https://youtu.be/CQaR75Unaxs (2:18). Edited and rendered in the cloud from Adesope's 4 clips and his ElevenLabs voiceover.
+  - Tests: clean clone → `npm install` → `npm run verify` → 59 pass, 0 fail; Lab 5 BLOCKED, 3 OK, `LAB PASSED`, exit 0.
+  - Live: human paste in client-zenith BLOCKED `CROSS_ROOM_PASTE` (clip 4, 2:19:19 PM log line). Linked rooms not run live in Switch.
+  - Submission text: project file `roomwall/SUBMISSION.md` (not in the repo).
 
 - **2026-11-06 — Phase 4 (cloud part only): README and REAL_VS_MOCKED.**
   - Files: `README.md` (judge path with the real Lab table, "How it uses Switch" table from PRD §15, "Plug into Switch" steps for the Compose stack, config, how it works, honest limits), `REAL_VS_MOCKED.md` (real counts, placeholders marked), `PROJECT_STATE.md`.

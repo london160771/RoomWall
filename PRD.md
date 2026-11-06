@@ -11,7 +11,7 @@
 | **Hackathon / track** | Flip the Switch (WeMakeDevs × DevTools Academy × Switch) — Track 1: Business Workflow |
 | **Official deadline** | Sat 7 Nov 2026, 7:29 PM WAT (11:59 PM IST) |
 | **Internal cutoff** | Sat 7 Nov 2026, 2:00 PM WAT |
-| **Links** | Repo: https://github.com/london160771/RoomWall · Video: [ ] |
+| **Links** | Repo: https://github.com/london160771/RoomWall · Video: https://youtu.be/CQaR75Unaxs |
 
 > **This file is the only source of truth for requirements.** Cite sections (e.g. "PRD §11"). When reality disagrees, fix this file and log it in §14.
 
@@ -413,12 +413,12 @@ One phase at a time. Continuous mode (CLAUDE.md §11): a phase that passes its a
 
 ## 26. Definition of finished
 
-- [ ] Clean clone → `npm install` → `npm run verify` passes.
-- [ ] Lab shows exactly §16.
-- [x] A live cross-room block in Switch is recorded (screenshot + log, §14 Gate 1; video still to record).
-- [ ] README, REAL_VS_MOCKED, video and submission agree; every number matches.
-- [ ] Limits listed honestly.
-- [ ] PROJECT_STATE.md is current.
+- [x] Clean clone → `npm install` → `npm run verify` passes (2026-11-06, cloud).
+- [x] Lab shows exactly §16.
+- [x] A live cross-room block in Switch is recorded (screenshot + log, §14 Gate 1; demo video https://youtu.be/CQaR75Unaxs).
+- [x] README, REAL_VS_MOCKED, video and submission agree; every number matches.
+- [x] Limits listed honestly.
+- [x] PROJECT_STATE.md is current.
 
 ---
 

@@ -4,7 +4,7 @@ Stated plainly.
 
 | Part | Real or mocked | Proof |
 |---|---|---|
-| Switch calling RoomWall before every human and agent message | Real (Switch 0.31.0, Docker Compose) | Gate 0 log, Gate 1 live log (`docs/evidence/phase3-live-log.txt`) + demo video 0:38 (Switch Trust set to RoomWall) and 1:01–1:25 |
+| Switch calling RoomWall before every human and agent message | Real (Switch 0.31.0, Docker Compose) | Gate 0 log, Gate 1 live log (`docs/evidence/phase3-live-log.txt`) + [demo video](https://youtu.be/CQaR75Unaxs) 0:38 (Switch Trust set to RoomWall) and 1:01–1:25 |
 | Blocks shown in chat ("blocked by Switch Trust") | Real — Switch's own notices | `docs/evidence/live-block-town-square.png`, demo video 1:15 |
 | The agent (Claude Code, hosted by Switch Console) | Real | Demo video |
 | Detectors, wall rule, store | Real code, deterministic, no AI | `npm test` (59 pass, 0 fail) |
