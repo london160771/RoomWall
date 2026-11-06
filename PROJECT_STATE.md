@@ -3,7 +3,7 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-11-06 07:30 WAT · **By:** Claude Code (cloud) · **Commit:** see Phase 2 entry in the build log
+**Last updated:** 2026-11-06 07:40 WAT · **By:** Claude Code (cloud) · **Commit:** see Phase 2 entry in the build log
 
 ---
 
@@ -22,7 +22,7 @@
 | 1 — Core engine | Cloud | **Done** | 2026-11-06 | Phase 1 commit | A |
 | 2 — Server + Leak Lab | Cloud | **Done** | 2026-11-06 | Phase 2 commit | — |
 | 3 — Live in Switch | Local | Not started | | | B |
-| 4 — Docs + submission | Both | Not started | | | C |
+| 4 — Docs + submission | Both | README + REAL_VS_MOCKED drafted (cloud); video, live lines, submission open | | | C |
 | 5 — P1 extras | Cloud | Not started | | | — |
 
 ## 3. Last verification
@@ -42,7 +42,7 @@
 
 ## 5. Real vs mocked right now
 
-See `REAL_VS_MOCKED.md`. Nothing built yet beyond the Gate 0 stub.
+See `REAL_VS_MOCKED.md`. Engine, server and Lab are real code; seeded data is made up. RoomWall itself is not verified live in Switch yet.
 
 ## 6. Demo recordings (PRD §20)
 
@@ -153,6 +153,12 @@ Stop RoomWall (Ctrl+C) and run `npm start` again. Post `hello` once more in clie
 ## 9. Build log
 
 Newest first.
+
+- **2026-11-06 — Phase 4 (cloud part only): README and REAL_VS_MOCKED.**
+  - Files: `README.md` (judge path with the real Lab table, "How it uses Switch" table from PRD §15, "Plug into Switch" steps for the Compose stack, config, how it works, honest limits), `REAL_VS_MOCKED.md` (real counts, placeholders marked), `PROJECT_STATE.md`.
+  - Tests: `npm run verify` → 59 pass, 0 fail; Lab 5 BLOCKED, 3 OK, `LAB PASSED`, exit 0.
+  - Placeholders left for Adesope: video link, live result line in README, video timestamps and Phase 3 result in REAL_VS_MOCKED.
+  - Still open in Phase 4: video, submission text, PRD §14 Gate 1 entry — all depend on the Phase 3 live run.
 
 - **2026-11-06 — Phase 2: Server + Leak Lab (PRD §23, against §10, §12, §16).**
   - Files: `src/app.js` (Express routes, 401/400/404/500 JSON errors), `src/server.js` (`PORT`, `ROOMS_FILE`), `src/request.js` (body/header validation), `src/log.js` (FR-LOG-001 console line), `src/wall.js` (`checkMessages`: a request is recorded only if every message in it is OK), `src/config.js`, `lab/lab.js`, `lab/client.js`, `lab/table.js`, `test/server.test.js`, `package.json` (`lab`, `verify` scripts).
