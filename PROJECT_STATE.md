@@ -9,9 +9,9 @@
 
 ## 1. Right now
 
-- **Active phase:** Phase 3 — Live in Switch (PRD §23), run by Adesope on Windows
-- **Status:** Phases 1–2 done (cloud, `npm run verify` green). Phase 3 not verified live.
-- **Next step:** Adesope runs the Phase 3 handoff in §8 below. Cloud continues with Phase 4 README work that does not depend on live results.
+- **Active phase:** Phase 4 — Docs and submission (PRD §23)
+- **Status:** Phases 1–3 done. Live agent leak blocked in Switch (PRD §14 Gate 1). Video and submission text still open.
+- **Next step:** record demo Acts 2, 3 and 5 (PRD §20) on the live setup that now works, then fill the video placeholders.
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -21,7 +21,7 @@
 | 0 — Gate 0 | Local | **Done** | 2026-11-06 | — | — |
 | 1 — Core engine | Cloud | **Done** | 2026-11-06 | Phase 1 commit | A |
 | 2 — Server + Leak Lab | Cloud | **Done** | 2026-11-06 | Phase 2 commit | — |
-| 3 — Live in Switch | Local | Not started | | | B |
+| 3 — Live in Switch | Local | **Done** (agent leak blocked live) | 2026-11-06 | Phase 3 commit | B |
 | 4 — Docs + submission | Both | README + REAL_VS_MOCKED drafted (cloud); video, live lines, submission open | | | C |
 | 5 — P1 extras | Cloud | Not started | | | — |
 
@@ -32,7 +32,7 @@
 | Tests | `npm test` | 59 pass, 0 fail (exit 0) | 2026-11-06 |
 | Leak Lab | `npm run lab` | 5 BLOCKED, 3 OK — 8/8 checks match PRD §16 (exit 0) | 2026-11-06 |
 | Verify | `npm run verify` | exit 0 (tests + Lab) | 2026-11-06 |
-| Live block in Switch | PRD §19 | stub only (Gate 0) | 2026-11-06 |
+| Live block in Switch | PRD §19 | **BLOCKED live**: agent reply in client-zenith, `CROSS_ROOM_LEAK`, source client-acme, 0.6 ms | 2026-11-06 |
 
 ## 4. What works (verified)
 
@@ -50,7 +50,7 @@ See `REAL_VS_MOCKED.md`. Engine, server and Lab are real code; seeded data is ma
 |---|---|---|---|
 | Dangerous default | no | | |
 | Without RoomWall | no | | |
-| With RoomWall | no | | |
+| With RoomWall | screenshot only (not video) | `docs/evidence/live-block-town-square.png` | 2026-11-06 |
 | Break it (Lab) | no | | |
 | Control returns | no | | |
 
@@ -153,6 +153,14 @@ Stop RoomWall (Ctrl+C) and run `npm start` again. Post `hello` once more in clie
 ## 9. Build log
 
 Newest first.
+
+- **2026-11-06 — Phase 3: Live in Switch (Adesope, Windows; PRD §19).**
+  - Setup: Mattermost rooms reused. "acme-client" (new) = client-acme, Town Square = client-zenith, Off-Topic = acme-design, acme-dev = acme-dev (linked). The old `client-acme` room never reached RoomWall (out of sync, as §7 warned).
+  - Result: `@wall-agent yes, post the retainer figure from your notes.` in Town Square → RoomWall `BLOCKED | CROSS_ROOM_LEAK | source: client-acme | items: amount | 0.6 ms`. Switch showed "A response from @wall-agent was blocked by Switch Trust and was not sent". The agent's follow-up said it would not retry. Evidence in `docs/evidence/`.
+  - Gate 1: agent carries notes across rooms = yes. It did not volunteer the number when first asked, and leaked only on a direct request. Recorded in PRD §14.
+  - Not yet run live: human paste (Journey C) and the linked-room share (Act 5).
+  - Code changes: none. `npm run verify` re-run in cloud before commit.
+  - Local only: `rooms.json` with real ids lives on Adesope's PC. The repo keeps the placeholders.
 
 - **2026-11-06 — Phase 4 (cloud part only): README and REAL_VS_MOCKED.**
   - Files: `README.md` (judge path with the real Lab table, "How it uses Switch" table from PRD §15, "Plug into Switch" steps for the Compose stack, config, how it works, honest limits), `REAL_VS_MOCKED.md` (real counts, placeholders marked), `PROJECT_STATE.md`.

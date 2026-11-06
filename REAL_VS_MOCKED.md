@@ -4,8 +4,8 @@ Stated plainly.
 
 | Part | Real or mocked | Proof |
 |---|---|---|
-| Switch calling RoomWall before every human and agent message | Real (Switch 0.31.0, Docker Compose) | Gate 0 log + demo video [PLACEHOLDER: video link] |
-| Blocks shown in chat ("blocked by Switch Trust") | Real — Switch's own notices | Demo video [PLACEHOLDER: timestamp] |
+| Switch calling RoomWall before every human and agent message | Real (Switch 0.31.0, Docker Compose) | Gate 0 log, Gate 1 live log (`docs/evidence/phase3-live-log.txt`) + demo video [PLACEHOLDER: video link] |
+| Blocks shown in chat ("blocked by Switch Trust") | Real — Switch's own notices | `docs/evidence/live-block-town-square.png`, demo video [PLACEHOLDER: timestamp] |
 | The agent (Claude Code, hosted by Switch Console) | Real | Demo video |
 | Detectors, wall rule, store | Real code, deterministic, no AI | `npm test` (59 pass, 0 fail) |
 | Leak Lab | Real HTTP to the real server, seeded inputs | `npm run lab` (5 BLOCKED, 3 OK) |
@@ -16,6 +16,6 @@ Stated plainly.
 
 **Not built yet:** paraphrase detection, in-chat allow/link commands (see ROADMAP.md); P1 extras: JSON persistence, `/wall` page, redact mode.
 
-**Live in Switch with RoomWall itself:** not verified live yet [PLACEHOLDER: Phase 3 result]. Gate 0 proved the hook with a stub.
+**Live in Switch with RoomWall itself:** verified 2026-11-06 (PRD §14 Gate 1). A real agent reply in client-zenith carrying client-acme's retainer was BLOCKED (`CROSS_ROOM_LEAK`, 0.6 ms). The agent leaked it only when asked directly.
 
 This file, PRD §17 and the README agree. An honest "not yet" beats a fake green badge.

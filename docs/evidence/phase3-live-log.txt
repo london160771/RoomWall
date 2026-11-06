@@ -1,0 +1,19 @@
+RoomWall log, live run on Adesope's Windows PC, 2026-11-06 (WAT), Switch 0.31.0 Compose stack.
+rooms.json mapped: a20f2085-4929-42fd-9227-f69a2ee5d41e = client-acme (Mattermost "acme-client"),
+2a879062-5736-4085-a6f1-ee7659e3da8e = client-zenith (Mattermost "Town Square").
+
+--- 12:44:36 PM POST /guardrails/check
+room: client-acme (a20f2085-4929-42fd-9227-f69a2ee5d41e) | role: user
+verdict: OK | code: CLEAN | 3.2 ms
+--- 12:44:41 PM POST /guardrails/check
+room: client-zenith (2a879062-5736-4085-a6f1-ee7659e3da8e) | role: user
+verdict: OK | code: CLEAN | 1.1 ms
+[... retainer posted in client-acme, agent saved notes, zenith asked; log lines not captured ...]
+room: client-zenith (2a879062-5736-4085-a6f1-ee7659e3da8e) | role: user
+verdict: OK | code: CLEAN | 0.1 ms
+--- 12:52:10 PM POST /guardrails/check
+room: client-zenith (2a879062-5736-4085-a6f1-ee7659e3da8e) | role: assistant
+verdict: BLOCKED | code: CROSS_ROOM_LEAK | source: client-acme | items: amount | 0.6 ms
+--- 12:52:14 PM POST /guardrails/check
+room: client-zenith (2a879062-5736-4085-a6f1-ee7659e3da8e) | role: assistant
+verdict: OK | code: CLEAN | 0.4 ms
