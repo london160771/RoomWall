@@ -32,16 +32,30 @@ function evaluate({ roomId, role, items, sourcesOf, rooms }) {
   return { verdict: VERDICTS.OK, code: okCode(assessed.map((entry) => entry.status)), sourceRooms: [], matches: [] };
 }
 
+const OK_CODE_RANK = [CODES.CLEAN, CODES.SAME_ROOM_OK, CODES.LINKED_ROOM_OK];
+
+function strongestOk(results) {
+  const rank = Math.max(...results.map((result) => OK_CODE_RANK.indexOf(result.code)));
+  return results.find((result) => OK_CODE_RANK.indexOf(result.code) === rank);
+}
+
 function createWall({ rooms, store }) {
-  function check({ roomId, role, content }) {
-    const items = detectItems(content);
-    const result = evaluate({ roomId, role, items, sourcesOf: store.sourcesOf, rooms });
-    if (result.verdict === VERDICTS.OK) {
+  function checkMessages({ roomId, messages }) {
+    const assessed = messages.map(({ role, content }) => {
+      const items = detectItems(content);
+      return { items, result: evaluate({ roomId, role, items, sourcesOf: store.sourcesOf, rooms }) };
+    });
+    const blocked = assessed.find(({ result }) => result.verdict === VERDICTS.BLOCKED);
+    if (blocked) return blocked.result;
+    for (const { items } of assessed) {
       store.record(roomId, items.filter((entry) => entry.recordable).map((entry) => entry.key));
     }
-    return result;
+    return strongestOk(assessed.map(({ result }) => result));
   }
-  return { check };
+
+  const check = ({ roomId, role, content }) => checkMessages({ roomId, messages: [{ role, content }] });
+
+  return { check, checkMessages };
 }
 
 module.exports = { createWall, evaluate, ITEM_STATUS };

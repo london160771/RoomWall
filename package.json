@@ -10,7 +10,9 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "lab": "node lab/lab.js",
+    "verify": "npm test && npm run lab"
   },
   "dependencies": {
     "express": "5.1.0"

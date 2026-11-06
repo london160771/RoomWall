@@ -3,15 +3,15 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-11-06 07:25 WAT · **By:** Claude Code (cloud) · **Commit:** see Phase 1 entry in the build log
+**Last updated:** 2026-11-06 07:30 WAT · **By:** Claude Code (cloud) · **Commit:** see Phase 2 entry in the build log
 
 ---
 
 ## 1. Right now
 
-- **Active phase:** Phase 2 — Server + Leak Lab (PRD §23)
-- **Status:** Phase 1 done (cloud); Phase 2 in progress
-- **Next step:** Claude Code (cloud) runs Phases 1 → 2 in continuous mode (CLAUDE.md §11), then hands Phase 3 live steps to Adesope.
+- **Active phase:** Phase 3 — Live in Switch (PRD §23), run by Adesope on Windows
+- **Status:** Phases 1–2 done (cloud, `npm run verify` green). Phase 3 not verified live.
+- **Next step:** Adesope runs the Phase 3 handoff in §8 below. Cloud continues with Phase 4 README work that does not depend on live results.
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -20,7 +20,7 @@
 |---|---|---|---|---|---|
 | 0 — Gate 0 | Local | **Done** | 2026-11-06 | — | — |
 | 1 — Core engine | Cloud | **Done** | 2026-11-06 | Phase 1 commit | A |
-| 2 — Server + Leak Lab | Cloud | Not started | | | — |
+| 2 — Server + Leak Lab | Cloud | **Done** | 2026-11-06 | Phase 2 commit | — |
 | 3 — Live in Switch | Local | Not started | | | B |
 | 4 — Docs + submission | Both | Not started | | | C |
 | 5 — P1 extras | Cloud | Not started | | | — |
@@ -29,8 +29,9 @@
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Tests | `npm test` | 48 pass, 0 fail (exit 0) | 2026-11-06 |
-| Leak Lab | `npm run lab` | not run yet (expected: 5 BLOCKED, 3 OK) | |
+| Tests | `npm test` | 58 pass, 0 fail (exit 0) | 2026-11-06 |
+| Leak Lab | `npm run lab` | 5 BLOCKED, 3 OK — 8/8 checks match PRD §16 (exit 0) | 2026-11-06 |
+| Verify | `npm run verify` | exit 0 (tests + Lab) | 2026-11-06 |
 | Live block in Switch | PRD §19 | stub only (Gate 0) | 2026-11-06 |
 
 ## 4. What works (verified)
@@ -70,6 +71,14 @@ See `REAL_VS_MOCKED.md`. Nothing built yet beyond the Gate 0 stub.
 ## 9. Build log
 
 Newest first.
+
+- **2026-11-06 — Phase 2: Server + Leak Lab (PRD §23, against §10, §12, §16).**
+  - Files: `src/app.js` (Express routes, 401/400/404/500 JSON errors), `src/server.js` (`PORT`, `ROOMS_FILE`), `src/request.js` (body/header validation), `src/log.js` (FR-LOG-001 console line), `src/wall.js` (`checkMessages`: a request is recorded only if every message in it is OK), `src/config.js`, `lab/lab.js`, `lab/client.js`, `lab/table.js`, `test/server.test.js`, `package.json` (`lab`, `verify` scripts).
+  - Tests: `npm test` → 58 tests, 58 pass, 0 fail, exit 0 (10 new contract tests: §12 shape, BLOCKED shape + INV-4 over HTTP, paste category, 401 ×2, 400 ×9 cases, INV-2 over HTTP, unknown room ids, 404, log format).
+  - Lab: `npm run lab` → 5 BLOCKED, 3 OK — 8/8 checks match PRD §16, `LAB PASSED`, exit 0. `npm run verify` exit 0.
+  - Smoke: `npm start` with the shipped `rooms.json` answered `/health` and a real Town Square → Off-Topic leak with BLOCKED; log showed both full room ids.
+  - Live check: **not verified live.** Steps for Adesope in §8 (Phase 3 handoff).
+  - Limits: as Phase 1. Nothing sent to ROADMAP.md.
 
 - **2026-11-06 — Phase 1: Core engine (PRD §23, against §10, §11, §16, §18).**
   - Files: `package.json` (Express 5.1.0 pinned, `npm test`), `package-lock.json`, `.gitignore`, `src/config.js`, `src/text.js`, `src/amounts.js`, `src/contacts.js`, `src/shingles.js`, `src/detectors.js`, `src/rooms.js`, `src/store.js`, `src/wall.js`, `src/wire.js`, `rooms.json` (Gate 0 room ids + `REPLACE-WITH-…` demo placeholders), `lab/rooms.json`, `lab/scenario.js` (PRD §16 data), `test-support/lab-wall.js`, `test/*.test.js` (8 files).

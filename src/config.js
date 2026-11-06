@@ -2,6 +2,15 @@ const DEFAULT_PORT = 8787;
 const DEFAULT_ROOMS_FILE = 'rooms.json';
 const BODY_LIMIT = '256kb';
 
+const HEADERS = {
+  ROOM: 'x-agent-session-id',
+  API_KEY: 'x-flintai-api-key',
+  POLICY: 'x-guardrails-policy-id',
+  AGENT: 'x-agent-name',
+};
+
+const HTTP = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, NOT_FOUND: 404, INTERNAL_ERROR: 500 };
+
 const SHINGLE_SIZE = 8;
 const PRIVATE_TAG = '#private';
 const MIN_GROUPED_AMOUNT = 1000n;
@@ -31,6 +40,8 @@ const CODES = {
   CLEAN: 'CLEAN',
   UNAUTHORIZED: 'UNAUTHORIZED',
   BAD_REQUEST: 'BAD_REQUEST',
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
 };
 
 const CATEGORIES = {
@@ -46,6 +57,8 @@ module.exports = {
   DEFAULT_PORT,
   DEFAULT_ROOMS_FILE,
   BODY_LIMIT,
+  HEADERS,
+  HTTP,
   SHINGLE_SIZE,
   PRIVATE_TAG,
   MIN_GROUPED_AMOUNT,
